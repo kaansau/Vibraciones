@@ -1,6 +1,11 @@
 # Vibraciones
 Análisis de vibraciones en estructuras
 
+Integrantes del equipo	Fabian Luna Iván
+	García Santiago Antonio
+	López Montiel Néstor
+
+
 El siguiente proyecto tiene el objetivo de analizar las vibraciones en diferentes estructuras a fin de 
 determinar si estas se encuentran cerca de las frecuencias naturales.
 
