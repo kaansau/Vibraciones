@@ -9,6 +9,10 @@ García Santiago Antonio
 	
 López Montiel Néstor
 
+Título del proyecto	
+
+Análisis de vibraciones para predecir daños estructurales en construcciones
+
 
 El siguiente proyecto tiene el objetivo de analizar las vibraciones en diferentes estructuras a fin de 
 determinar si estas se encuentran cerca de las frecuencias naturales.
