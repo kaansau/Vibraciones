@@ -1,9 +1,13 @@
 # Vibraciones
 Análisis de vibraciones en estructuras
 
-Integrantes del equipo	Fabian Luna Iván
-	García Santiago Antonio
-	López Montiel Néstor
+Integrantes del equipo	
+
+Fabian Luna Iván
+	
+García Santiago Antonio
+	
+López Montiel Néstor
 
 
 El siguiente proyecto tiene el objetivo de analizar las vibraciones en diferentes estructuras a fin de 
