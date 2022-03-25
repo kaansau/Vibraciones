@@ -1,4 +1,4 @@
-# Vibraciones
+# Análisis de vibraciones en estructuras
 Análisis de vibraciones en estructuras
 
 Integrantes del equipo	
