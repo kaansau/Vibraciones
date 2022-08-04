@@ -1,0 +1,768 @@
+[
+    {
+        "id": "f13844b496f87f8a",
+        "type": "tab",
+        "label": "Tablas",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "83d6840fd4057b8f",
+        "type": "change",
+        "z": "f13844b496f87f8a",
+        "name": "Interfaz de tabla",
+        "rules": [
+            {
+                "t": "set",
+                "p": "ui_control",
+                "pt": "msg",
+                "to": "{\"tabulator\":{\"columnResized\":\"function(column){     var newColumn = {         field: column._column.field,         visible: column._column.visible,         width: column._column.width,         widthFixed: column._column.widthFixed,         widthStyled: column._column.widthStyled     }; this.send({topic:this.config.topic,ui_control:{callback:'columnResized',columnWidths:newColumn}}); }\",\"columnMoved\":\"function(column, columns){     var newColumns=[];     columns.forEach(function (column) {         newColumns.push({'field': column._column.field});     });     this.send({topic:this.config.topic,ui_control:{callback:'columnMoved',columns:newColumns}}); }\",\"groupHeader\":\"function (value, count, data, group) {return value + \\\"<span style='color:#d00; margin-left:10px;'>(\\\" + count + \\\" Termostat\\\"+((count>1) ? \\\"e\\\" : \\\"\\\") + \\\")</span>\\\";}\",\"columns\":[{\"formatterParams\":{\"target\":\"_blank\"},\"title\":\"Sensor\",\"field\":\"sensor\",\"width\":100,\"frozen\":true},{\"formatterParams\":{\"target\":\"_blank\"},\"title\":\"Mediciones\",\"columns\":[{\"formatterParams\":{\"target\":\"_blank\"},\"title\":\"Temperatura\",\"field\":\"temperatura\",\"formatter\":\"function(cell, formatterParams, onRendered){return cell.getValue()+'°C';}\",\"topCalc\":\"avg\",\"width\":150},{\"formatterParams\":{\"target\":\"_blank\",\"min\":0,\"max\":100,\"color\":[\"green\",\"yellow\",\"red\"],\"legend\":\"function (value) {return '&nbsp;&nbsp;'+value+'Hz';}\",\"legendColor\":\"#101010\",\"legendAlign\":\"left\"},\"title\":\"Frecuencia\",\"field\":\"frecuencia\",\"formatter\":\"progress\",\"topCalc\":\"avg\",\"width\":150},{\"formatterParams\":{\"target\":\"_blank\",\"min\":0,\"max\":100,\"color\":[\"green\",\"yellow\",\"red\"],\"legend\":\"function (value) {return (value>0)? '&nbsp;&nbsp;'+value+' mm' : '-';}\",\"legendColor\":\"#101010\",\"legendAlign\":\"center\"},\"title\":\"Amplitud\",\"field\":\"amplitud\",\"formatter\":\"progress\",\"topCalc\":\"max\",\"width\":150}]}],\"layout\":\"fitColumns\",\"movableColumns\":true,\"groupBy\":\"\"},\"customHeight\":12}",
+                "tot": "json"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 300,
+        "y": 40,
+        "wires": [
+            [
+                "a635d6a629affb39"
+            ]
+        ]
+    },
+    {
+        "id": "a635d6a629affb39",
+        "type": "ui_table",
+        "z": "f13844b496f87f8a",
+        "group": "e0f34ff551258505",
+        "name": "Vibraciones en Estructuras",
+        "order": 1,
+        "width": "12",
+        "height": "5",
+        "columns": [],
+        "outputs": 0,
+        "cts": false,
+        "x": 540,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "1f5328ae5ffb371b",
+        "type": "mqtt in JSON",
+        "z": "f13844b496f87f8a",
+        "name": "",
+        "topic": "mqtt-vibraciones",
+        "qos": "2",
+        "broker": "33467520.52c7ca",
+        "ignoreempty": true,
+        "removemqttconfig": false,
+        "x": 100,
+        "y": 120,
+        "wires": [
+            [
+                "83d6840fd4057b8f",
+                "a7c79c86e24321d2",
+                "3ded25903bc77775"
+            ]
+        ]
+    },
+    {
+        "id": "e7ef38827c88bf35",
+        "type": "ui_button",
+        "z": "f13844b496f87f8a",
+        "name": "",
+        "group": "e0f34ff551258505",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "Crear Base de Datos",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "",
+        "payloadType": "date",
+        "topic": "CREATE TABLE vibraciones(CURRENT_TIMESTAMP ,SENSOR TEXT NOT NULL, TEMPERATURA INT NOT NULL, FRECUENCIA INT NOT NULL, AMPLITUD INT NOT NULL)",
+        "topicType": "str",
+        "x": 360,
+        "y": 100,
+        "wires": [
+            [
+                "31dd0b5104da155f"
+            ]
+        ]
+    },
+    {
+        "id": "5a25d5789bc3e759",
+        "type": "ui_button",
+        "z": "f13844b496f87f8a",
+        "name": "",
+        "group": "e0f34ff551258505",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "Reiniciar Base de Datos",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "",
+        "payloadType": "date",
+        "topic": "DROP TABLE vibraciones",
+        "topicType": "str",
+        "x": 370,
+        "y": 160,
+        "wires": [
+            [
+                "31dd0b5104da155f"
+            ]
+        ]
+    },
+    {
+        "id": "31dd0b5104da155f",
+        "type": "sqlite",
+        "z": "f13844b496f87f8a",
+        "mydb": "4e71ffcc.32ba8",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "Base de Datos",
+        "x": 720,
+        "y": 240,
+        "wires": [
+            [
+                "d9842f210ba99042",
+                "e4f23f990688e609"
+            ]
+        ]
+    },
+    {
+        "id": "a7c79c86e24321d2",
+        "type": "split",
+        "z": "f13844b496f87f8a",
+        "name": "",
+        "splt": "\\n",
+        "spltType": "str",
+        "arraySplt": 1,
+        "arraySpltType": "len",
+        "stream": false,
+        "addname": "",
+        "x": 270,
+        "y": 220,
+        "wires": [
+            [
+                "27c6a889a54ef2c1",
+                "5047e08c3576c873"
+            ]
+        ]
+    },
+    {
+        "id": "27c6a889a54ef2c1",
+        "type": "function",
+        "z": "f13844b496f87f8a",
+        "name": "Función Insert",
+        "func": "sensor=msg.payload.sensor\ntemp=msg.payload.temperatura\nfrec=msg.payload.frecuencia\nampl=msg.payload.amplitud\n\n//msg=\"(DateTime('now'),'\"+sensor+\"', \"+temp+\", \"+frec+\", \"+ampl+\");\";\nmsg=\"(DateTime('now','localtime'),'\"+sensor+\"', \"+temp+\", \"+frec+\", \"+ampl+\");\";\n\nvar topic=\"INSERT INTO vibraciones (CURRENT_TIMESTAMP,sensor,temperatura,frecuencia,amplitud) VALUES \" +msg\n\n\nvar msg1 ={}\nmsg1.topic=topic\nreturn msg1;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 480,
+        "y": 220,
+        "wires": [
+            [
+                "31dd0b5104da155f"
+            ]
+        ]
+    },
+    {
+        "id": "a3a124f201caea37",
+        "type": "ui_date_picker",
+        "z": "f13844b496f87f8a",
+        "name": "",
+        "label": "Start Date",
+        "group": "1435e071.39b76",
+        "order": 5,
+        "width": 5,
+        "height": 2,
+        "passthru": true,
+        "topic": "startDate",
+        "topicType": "msg",
+        "className": "",
+        "x": 80,
+        "y": 300,
+        "wires": [
+            [
+                "7dd0ddafd4f778c3"
+            ]
+        ]
+    },
+    {
+        "id": "240e1a9006f97eed",
+        "type": "ui_date_picker",
+        "z": "f13844b496f87f8a",
+        "name": "",
+        "label": "End Date",
+        "group": "1435e071.39b76",
+        "order": 6,
+        "width": 5,
+        "height": 2,
+        "passthru": true,
+        "topic": "endDate",
+        "topicType": "msg",
+        "className": "",
+        "x": 80,
+        "y": 360,
+        "wires": [
+            [
+                "0b0d6409289a2cbb"
+            ]
+        ]
+    },
+    {
+        "id": "d66650202281478e",
+        "type": "debug",
+        "z": "f13844b496f87f8a",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1050,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "7dd0ddafd4f778c3",
+        "type": "change",
+        "z": "f13844b496f87f8a",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "startDate",
+                "pt": "flow",
+                "to": "$moment($$.payload).tz(\"America/Mexico_City\").format(\"YYYY-MM-DD\")",
+                "tot": "jsonata"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 290,
+        "y": 300,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "0b0d6409289a2cbb",
+        "type": "change",
+        "z": "f13844b496f87f8a",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "endDate",
+                "pt": "flow",
+                "to": "$moment($$.payload).tz(\"Asia/Colombo\").format(\"YYYY-MM-DD\")",
+                "tot": "jsonata"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 290,
+        "y": 360,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "1c7c9d97405876af",
+        "type": "function",
+        "z": "f13844b496f87f8a",
+        "name": "SQL Database Request",
+        "func": "// only execute query if download button has been clicked\nif(msg.topic == \"query\")\n{\n    var startDate = flow.get(\"startDate\");\n    var endDate = flow.get(\"endDate\") || false;\n    var sensor = flow.get(\"sensor\") || false;\n    var medida = flow.get(\"medida\") || false;\n    \n\n    // check if date range is correct\n    if (startDate && endDate && medida == \"Temperatura\" && new Date(endDate) >= new Date(startDate)) \n    {\n        //msg.topic = \"SELECT TEMPERATURA FROM vibraciones WHERE CURRENT_TIMESTAMP BETWEEN '\" + startDate + \" 'AND '\" + endDate + \"' ORDER BY CURRENT_TIMESTAMP limit 5000\";\n        msg.topic = \"SELECT CURRENT_TIMESTAMP,TEMPERATURA FROM vibraciones WHERE CURRENT_TIMESTAMP BETWEEN '\" + startDate + \" 'AND '\" + endDate + \" ' AND SENSOR = '\" + sensor + \"' ORDER BY CURRENT_TIMESTAMP limit 5000 \";\n        \n        return msg;\n    } \n    else if (startDate && endDate && medida == \"Frecuencia\" && new Date(endDate) >= new Date(startDate)) \n    {\n        //msg.topic = \"SELECT TEMPERATURA FROM vibraciones WHERE CURRENT_TIMESTAMP BETWEEN '\" + startDate + \" 'AND '\" + endDate + \"' ORDER BY CURRENT_TIMESTAMP limit 5000\";\n        msg.topic = \"SELECT CURRENT_TIMESTAMP, FRECUENCIA FROM vibraciones WHERE CURRENT_TIMESTAMP BETWEEN '\" + startDate + \" 'AND '\" + endDate + \" ' AND SENSOR = '\" + sensor + \"' ORDER BY CURRENT_TIMESTAMP limit 5000 \";\n        \n        return msg;\n    } \n    else if (startDate && endDate && medida == \"Amplitud\" && new Date(endDate) >= new Date(startDate)) \n    {\n        //msg.topic = \"SELECT TEMPERATURA FROM vibraciones WHERE CURRENT_TIMESTAMP BETWEEN '\" + startDate + \" 'AND '\" + endDate + \"' ORDER BY CURRENT_TIMESTAMP limit 5000\";\n        msg.topic = \"SELECT CURRENT_TIMESTAMP,AMPLITUD FROM vibraciones WHERE CURRENT_TIMESTAMP BETWEEN '\" + startDate + \" 'AND '\" + endDate + \" ' AND SENSOR = '\" + sensor + \"' ORDER BY CURRENT_TIMESTAMP limit 5000 \";\n        \n        return msg;\n    } \n    \n    \n    //if (startDate && endDate && new Date(endDate) >= new Date(startDate)) \n    //{\n    //    //msg.topic = \"SELECT TEMPERATURA FROM vibraciones WHERE CURRENT_TIMESTAMP BETWEEN '\" + startDate + \" 'AND '\" + endDate + \"' ORDER BY CURRENT_TIMESTAMP limit 5000\";\n    //    msg.topic = \"SELECT * FROM vibraciones WHERE CURRENT_TIMESTAMP BETWEEN '\" + startDate + \" 'AND '\" + endDate + \" ' AND SENSOR = '\" + sensor + \"' ORDER BY CURRENT_TIMESTAMP limit 5000 \";\n        \n    //    return msg;\n    //} \n    else \n    {\n        node.warn(\"end date is before start date. or context not set\");\n    }\n\n}\n\n\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 310,
+        "y": 540,
+        "wires": [
+            [
+                "31dd0b5104da155f"
+            ]
+        ]
+    },
+    {
+        "id": "93b9f1b4df49f3df",
+        "type": "ui_dropdown",
+        "z": "f13844b496f87f8a",
+        "name": "",
+        "label": "Sensor",
+        "tooltip": "",
+        "place": "Select option",
+        "group": "1435e071.39b76",
+        "order": 2,
+        "width": 5,
+        "height": 1,
+        "passthru": false,
+        "multiple": false,
+        "options": [
+            {
+                "label": "Sensor 1",
+                "value": "Sensor1",
+                "type": "str"
+            },
+            {
+                "label": "Sensor 2",
+                "value": "Sensor2",
+                "type": "str"
+            },
+            {
+                "label": "Sensor 3",
+                "value": "Sensor3",
+                "type": "str"
+            }
+        ],
+        "payload": "",
+        "topic": "payload",
+        "topicType": "msg",
+        "className": "",
+        "x": 80,
+        "y": 420,
+        "wires": [
+            [
+                "51c9c76188894f5d"
+            ]
+        ]
+    },
+    {
+        "id": "51c9c76188894f5d",
+        "type": "change",
+        "z": "f13844b496f87f8a",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "sensor",
+                "pt": "flow",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 280,
+        "y": 420,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "4f73d6f6ba2d4580",
+        "type": "ui_button",
+        "z": "f13844b496f87f8a",
+        "name": "",
+        "group": "1435e071.39b76",
+        "order": 7,
+        "width": 5,
+        "height": 1,
+        "passthru": false,
+        "label": "Buscar",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "",
+        "payloadType": "date",
+        "topic": "query",
+        "topicType": "str",
+        "x": 80,
+        "y": 540,
+        "wires": [
+            [
+                "1c7c9d97405876af"
+            ]
+        ]
+    },
+    {
+        "id": "a379e5e37cc38fa9",
+        "type": "ui_dropdown",
+        "z": "f13844b496f87f8a",
+        "name": "",
+        "label": "Medida",
+        "tooltip": "",
+        "place": "Select option",
+        "group": "1435e071.39b76",
+        "order": 4,
+        "width": 5,
+        "height": 1,
+        "passthru": false,
+        "multiple": false,
+        "options": [
+            {
+                "label": "Temperatura",
+                "value": "Temperatura",
+                "type": "str"
+            },
+            {
+                "label": "Frecuencia",
+                "value": "Frecuencia",
+                "type": "str"
+            },
+            {
+                "label": "Amplitud",
+                "value": "Amplitud",
+                "type": "str"
+            }
+        ],
+        "payload": "",
+        "topic": "payload",
+        "topicType": "msg",
+        "className": "",
+        "x": 80,
+        "y": 480,
+        "wires": [
+            [
+                "8d3dcd3c6ddd4585"
+            ]
+        ]
+    },
+    {
+        "id": "8d3dcd3c6ddd4585",
+        "type": "change",
+        "z": "f13844b496f87f8a",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "medida",
+                "pt": "flow",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 280,
+        "y": 480,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "0c48e45d0e89346b",
+        "type": "ui_chart",
+        "z": "f13844b496f87f8a",
+        "name": "Chart",
+        "group": "1435e071.39b76",
+        "order": 3,
+        "width": 12,
+        "height": 9,
+        "label": "",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "%a %H:%M",
+        "interpolate": "monotone",
+        "nodata": "Seleccione elemento a graficar",
+        "dot": true,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": "1",
+        "removeOlderPoints": "",
+        "removeOlderUnit": "604800",
+        "cutout": "",
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#28b31e",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 1050,
+        "y": 340,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "d9842f210ba99042",
+        "type": "function",
+        "z": "f13844b496f87f8a",
+        "name": "Pre-grafica",
+        "func": "var data = [];\nvar fecha = [];\n\nvar medida = flow.get(\"medida\");\n\nmsg.payload.forEach(function(value) \n{\n    if (medida == \"Temperatura\")\n    {\n        data.push(value['TEMPERATURA']);\n        fecha.push(value['CURRENT_TIMESTAMP']);\n    }\n    else if (medida == \"Frecuencia\")\n    {\n        data.push(value['FRECUENCIA']);\n        fecha.push(value['CURRENT_TIMESTAMP']);\n    }\n    else if (medida == \"Amplitud\")\n    {\n        data.push(value['AMPLITUD']);\n        fecha.push(value['CURRENT_TIMESTAMP']);\n    }\n});\n\nmsg.payload = [{\n    series: \"\",\n    data: [data],\n    labels: fecha\n}];\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 910,
+        "y": 280,
+        "wires": [
+            [
+                "0c48e45d0e89346b",
+                "d66650202281478e"
+            ]
+        ]
+    },
+    {
+        "id": "e4f23f990688e609",
+        "type": "debug",
+        "z": "f13844b496f87f8a",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 970,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "46c49d0027720036",
+        "type": "telegram receiver",
+        "z": "f13844b496f87f8a",
+        "name": "Bot Telegram",
+        "bot": "7c245695978427ba",
+        "saveDataDir": "",
+        "filterCommands": false,
+        "x": 750,
+        "y": 500,
+        "wires": [
+            [
+                "3dc1e536f9f50588"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "02f5288ff5cd7925",
+        "type": "telegram sender",
+        "z": "f13844b496f87f8a",
+        "name": "",
+        "bot": "7c245695978427ba",
+        "haserroroutput": false,
+        "outputs": 1,
+        "x": 990,
+        "y": 440,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "3dc1e536f9f50588",
+        "type": "debug",
+        "z": "f13844b496f87f8a",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 950,
+        "y": 500,
+        "wires": []
+    },
+    {
+        "id": "3ded25903bc77775",
+        "type": "debug",
+        "z": "f13844b496f87f8a",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 290,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "5047e08c3576c873",
+        "type": "function",
+        "z": "f13844b496f87f8a",
+        "name": "Alertas",
+        "func": "sensor=msg.payload.sensor\ntemp=msg.payload.temperatura\nfrec=msg.payload.frecuencia\nampl=msg.payload.amplitud\n\nif (ampl>10)\n{\n    msg.payload.type = \"message\";\n    msg.payload.chatId = -1001607589632;\n    msg.payload.content = \"ALERTA!!!  Se detecto una amplitud crítica en el sensor '\"+sensor+\"'\";\n    return msg;\n    \n}\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 660,
+        "y": 360,
+        "wires": [
+            [
+                "02f5288ff5cd7925"
+            ]
+        ]
+    },
+    {
+        "id": "5d4216d2a8e98607",
+        "type": "ui_spacer",
+        "z": "f13844b496f87f8a",
+        "name": "spacer",
+        "group": "1435e071.39b76",
+        "order": 1,
+        "width": 17,
+        "height": 1
+    },
+    {
+        "id": "3e5f70208951a89f",
+        "type": "ui_spacer",
+        "z": "f13844b496f87f8a",
+        "name": "spacer",
+        "group": "1435e071.39b76",
+        "order": 8,
+        "width": 5,
+        "height": 1
+    },
+    {
+        "id": "89fa2c3505b1cf14",
+        "type": "ui_spacer",
+        "z": "f13844b496f87f8a",
+        "name": "spacer",
+        "group": "1435e071.39b76",
+        "order": 9,
+        "width": 5,
+        "height": 1
+    },
+    {
+        "id": "e0f34ff551258505",
+        "type": "ui_group",
+        "name": "Vibraciones en Estructuras",
+        "tab": "2662036a954cdcd5",
+        "order": 1,
+        "disp": true,
+        "width": "12",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "33467520.52c7ca",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "https://localhost",
+        "port": "1883",
+        "tls": "",
+        "clientid": "vibracionesiot",
+        "autoConnect": true,
+        "usetls": true,
+        "compatmode": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "sessionExpiry": ""
+    },
+    {
+        "id": "4e71ffcc.32ba8",
+        "type": "sqlitedb",
+        "db": "/home/pi/vibraciones/IoT.db"
+    },
+    {
+        "id": "1435e071.39b76",
+        "type": "ui_group",
+        "name": "Datos Históricos",
+        "tab": "48313a88.497314",
+        "order": 3,
+        "disp": true,
+        "width": "17",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "7c245695978427ba",
+        "type": "telegram bot",
+        "botname": "Análisis de Vibraciones IoT",
+        "usernames": "",
+        "chatids": "",
+        "baseapiurl": "",
+        "updatemode": "polling",
+        "pollinterval": "300",
+        "usesocks": false,
+        "sockshost": "",
+        "socksport": "6667",
+        "socksusername": "anonymous",
+        "sockspassword": "",
+        "bothost": "",
+        "botpath": "",
+        "localbotport": "8443",
+        "publicbotport": "8443",
+        "privatekey": "",
+        "certificate": "",
+        "useselfsignedcertificate": false,
+        "sslterminated": false,
+        "verboselogging": false
+    },
+    {
+        "id": "2662036a954cdcd5",
+        "type": "ui_tab",
+        "name": "Vibraciones en Estructuras",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "48313a88.497314",
+        "type": "ui_tab",
+        "name": "Monitoreo",
+        "icon": "fa-desktop",
+        "order": 1,
+        "disabled": false,
+        "hidden": false
+    }
+]
