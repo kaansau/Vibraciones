@@ -54,4 +54,4 @@ Los componenetes necesarios para realizar este proyecto son:
 
 **Diagrama de conexiones**
 
-
+![Esta es una imagen de ejemplo](https://github.com/kaansau/Vibraciones/blob/main/imagenes/conexion%20raspberry.png)
