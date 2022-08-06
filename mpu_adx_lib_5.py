@@ -278,24 +278,23 @@ while True:                                    #comienzo del bucle principal
     time.sleep(0.5)                                                          #Retardo de 0.5 seg
     '''
     
-    temperatura1 = sensor1.get_temp()
-    temperatura2 = sensor2.get_temp()
+    temperatura1 = sensor1.get_temp()                                        #obtencion de la temperatura del sensor 1
+    temperatura2 = sensor2.get_temp()                                        #obtencion de la temperatura del sensor 2
     
-    client1= paho.Client("control1")                           #create client object
-    client1.on_publish = on_publish                          #assign function to callback
-    client1.connect(broker,port)                                 #establish connection
+    client1= paho.Client("control1")                                         #Se crea u objeto ciente
+    client1.on_publish = on_publish                                          #Se llama a la funion publish
+    client1.connect(broker,port)                                             #Se establece la conexion con el broker
     
-    dict = [{"sensor":"Sensor1", "temperatura": temperatura1, "frecuencia": frecuencia_1[0], "amplitud": max_value_1},
+    dict = [{"sensor":"Sensor1", "temperatura": temperatura1, "frecuencia": frecuencia_1[0], "amplitud": max_value_1},    #Se determina el diccionario a enviar
             {"sensor":"Sensor2", "temperatura": 0,            "frecuencia": frecuencia_4[0], "amplitud": max_value_4},
             {"sensor":"Sensor3", "temperatura": temperatura2, "frecuencia": frecuencia_7[0], "amplitud": max_value_7}]
-    s=pickle.dumps(dict)
-    #print(s)
-    d=pickle.loads(s)
-    print(d)
+    s=pickle.dumps(dict)                                                     #se desserializa del dato dict
+    #print(s)                                                                #se imprime el dato s 
+    d=pickle.loads(s)                                                        #se serializa el dato s en ascii
+    print(d)                                                                 #Se imprime el dato d
     
-    ret= client1.publish("vibraciones", json.dumps(d))
-    
-    #frecuenciahz = np.append(frecuenciahz, frecuencia_1[0], frecuencia_4[0], frecuencia_7[0])
-    frecuenciahz = np.append(frecuenciahz, frecuencia_1[0])
-    np.savetxt('frecuencias.txt', frecuenciahz, fmt = '%.4e')
-    time.sleep(5)
+    ret= client1.publish("vibraciones", json.dumps(d))                       #Se envían los datos al broker   
+        
+    frecuenciahz = np.append(frecuenciahz, frecuencia_1[0])                  #Se construye el vector de frecuencias
+    np.savetxt('frecuencias.txt', frecuenciahz, fmt = '%.4e')                #Se almacena el vector de frecuencias en un txt
+    time.sleep(5)                                                            #Retardo de 5 seg
