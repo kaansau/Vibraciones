@@ -126,157 +126,156 @@ while True:                                    #comienzo del bucle principal
         #base_temp_2 = time.time()                                           #Medición de tiempo final de un ciclo de muestreo
         #print(base_temp_2-base_temp)                                        #Impresion del tiempo requerido para muestrear un ciclo
         
-    base_temp_2 = time.time()
-    print(base_temp_2-base_temp)
-    np.savetxt('acelerometro_101.txt', v_1, fmt = '%.4e')
-    #np.savetxt('acelerometro_102.txt', v_2, fmt = '%.4e')
-    #np.savetxt('acelerometro_103.txt', v_3, fmt = '%.4e')
-    np.savetxt('acelerometro_104.txt', v_4, fmt = '%.4e')
-    #np.savetxt('acelerometro_105.txt', v_5, fmt = '%.4e')
-    #np.savetxt('acelerometro_106.txt', v_6, fmt = '%.4e')
-    np.savetxt('acelerometro_107.txt', v_7, fmt = '%.4e')
-    #np.savetxt('acelerometro_108.txt', v_8, fmt = '%.4e')
-    #np.savetxt('acelerometro_109.txt', v_9, fmt = '%.4e')
+    base_temp_2 = time.time()                                                #Se almacena el tiempo que tarda en ejecutar 800 ciclos
+    print(base_temp_2-base_temp)                                             #Se imprime el tiempo que tarda en ejecutar 800 ciclos
+    np.savetxt('acelerometro_101.txt', v_1, fmt = '%.4e')                    #Se almacenan los datos de la aceleracion x del sensor 1 
+    #np.savetxt('acelerometro_102.txt', v_2, fmt = '%.4e')                   #Se almacenan los datos de la aceleracion y del sensor 1 
+    #np.savetxt('acelerometro_103.txt', v_3, fmt = '%.4e')                   #Se almacenan los datos de la aceleracion z del sensor 1 
+    np.savetxt('acelerometro_104.txt', v_4, fmt = '%.4e')                    #Se almacenan los datos de la aceleracion x del sensor 2 
+    #np.savetxt('acelerometro_105.txt', v_5, fmt = '%.4e')                   #Se almacenan los datos de la aceleracion y del sensor 2  
+    #np.savetxt('acelerometro_106.txt', v_6, fmt = '%.4e')                   #Se almacenan los datos de la aceleracion z del sensor 2 
+    np.savetxt('acelerometro_107.txt', v_7, fmt = '%.4e')                    #Se almacenan los datos de la aceleracion x del sensor 3 
+    #np.savetxt('acelerometro_108.txt', v_8, fmt = '%.4e')                   #Se almacenan los datos de la aceleracion y del sensor 3  
+    #np.savetxt('acelerometro_109.txt', v_9, fmt = '%.4e')                   #Se almacenan los datos de la aceleracion z del sensor 3 
     print("Datos capturados")
     print("Pausa")
-    time.sleep(1)
+    time.sleep(1)                                                            #retardo de 1 seg
     
-    F = np.loadtxt('acelerometro_101.txt')
-    N = F.size
-    #T = 1.0 / 60.0
-    T=(base_temp_2-base_temp)/800
-    y_f = np.fft.fft(F)
-    x_f = np.linspace(0.0, 1.0/(2.0*T), N//2)
-    y_f_amplitud = 2.0/N * np.abs(y_f[:N//2])
+    F = np.loadtxt('acelerometro_101.txt')                                   #Se leen los datos de aceleracion del eje x del sensor 1
+    N = F.size                                                               #Se determina la longitud del vector F
+    T=(base_temp_2-base_temp)/800                                            #Se establece el periodo de muestreo
+    y_f = np.fft.fft(F)                                                      #Se obtiene la transformada de fourier 
+    x_f = np.linspace(0.0, 1.0/(2.0*T), N//2)                                #Se determina los valores del eje horizontal
+    y_f_amplitud = 2.0/N * np.abs(y_f[:N//2])                                #Se determina la amplitud de frecuencias (eje vertical) 
     
-    #plt.plot(x_f, y_f_amplitud)
-    #plt.show()
+    #plt.plot(x_f, y_f_amplitud)                                             #Se configura la grafica grafica para la aceleracion x en el sensor 1
+    #plt.show()                                                              #Se muestra la aceleracion x del sensor 1 
 
-    max_value_1 = np.max(y_f_amplitud)
-    print('El valor maximo del array es:', max_value_1)
-    frecuencia_1 = x_f[np.where(y_f_amplitud == max(y_f_amplitud))]
-    print('La frecuencia registrada es de:',frecuencia_1[0])
-    time.sleep(0.5)
-    
-    '''
-    F = np.loadtxt('acelerometro_102.txt')
-    N = F.size
-    T = 1.0 / 200.0
-    y_f = np.fft.fft(F)
-    x_f = np.linspace(0.0, 1.0/(2.0*T), N//2)
-    y_f_amplitud = 2.0/N * np.abs(y_f[:N//2])
-
-    max_value_2 = np.max(y_f_amplitud)
-    print('El valor maximo del array es:', max_value_2)
-    frecuencia_2 = x_f[np.where(y_f_amplitud == max(y_f_amplitud))]
-    print('La frecuencia registrada es de:',frecuencia_2[0])
-    time.sleep(0.5)
-    '''
-    '''
-    F = np.loadtxt('acelerometro_103.txt')
-    N = F.size
-    T = 1.0 / 200.0
-    y_f = np.fft.fft(F)
-    x_f = np.linspace(0.0, 1.0/(2.0*T), N//2)
-    y_f_amplitud = 2.0/N * np.abs(y_f[:N//2])
-
-    max_value_3 = np.max(y_f_amplitud)
-    print('El valor maximo del array es:', max_value_3)
-    frecuencia_3 = x_f[np.where(y_f_amplitud == max(y_f_amplitud))]
-    print('La frecuencia registrada es de:',frecuencia_3[0])
-    time.sleep(0.5)
-    '''
-    
-    F = np.loadtxt('acelerometro_104.txt')
-    N = F.size
-    #T = 1.0 / 60.0
-    T=(base_temp_2-base_temp)/800
-    y_f = np.fft.fft(F)
-    x_f = np.linspace(0.0, 1.0/(2.0*T), N//2)
-    y_f_amplitud = 2.0/N * np.abs(y_f[:N//2])
-    
-    #plt.plot(x_f, y_f_amplitud)
-    #plt.show()
-
-    max_value_4 = np.max(y_f_amplitud)
-    print('El valor maximo del array es:', max_value_4)
-    frecuencia_4 = x_f[np.where(y_f_amplitud == max(y_f_amplitud))]
-    print('La frecuencia registrada es de:',frecuencia_4[0])
-    time.sleep(0.5)
+    max_value_1 = np.max(y_f_amplitud)                                       #Se determina el maximo valor del vector de frecuencias del eje x del sensor 1 
+    print('El valor maximo del array es:', max_value_1)                      #Se imprime el valor maximo  
+    frecuencia_1 = x_f[np.where(y_f_amplitud == max(y_f_amplitud))]          #Se determina el valor de la frecuencia que tiene el valor maximo
+    print('La frecuencia registrada es de:',frecuencia_1[0])                 #Se imprime el valor de maximo frecuancia 
+    time.sleep(0.5)                                                          #Retardo de 0.5 seg 
     
     '''
-    F = np.loadtxt('acelerometro_105.txt')
-    N = F.size
-    T = 1.0 / 200.0
-    y_f = np.fft.fft(F)
-    x_f = np.linspace(0.0, 1.0/(2.0*T), N//2)
-    y_f_amplitud = 2.0/N * np.abs(y_f[:N//2])
+    F = np.loadtxt('acelerometro_102.txt')                                   #Se leen los datos de aceleracion del eje y del sensor 1
+    N = F.size                                                               #Se determina la longitud del vector F
+    T = 1.0 / 200.0                                                          #Se establece el periodo de muestreo
+    y_f = np.fft.fft(F)                                                      #Se obtiene la transformada de fourier 
+    x_f = np.linspace(0.0, 1.0/(2.0*T), N//2)                                #Se determina los valores del eje horizontal
+    y_f_amplitud = 2.0/N * np.abs(y_f[:N//2])                                #Se determina la amplitud de frecuencias (eje vertical) 
 
-    max_value_5 = np.max(y_f_amplitud)
-    print('El valor maximo del array es:', max_value_5)
-    frecuencia_5 = x_f[np.where(y_f_amplitud == max(y_f_amplitud))]
-    print('La frecuencia registrada es de:',frecuencia_5[0])
-    time.sleep(0.5)
+    max_value_2 = np.max(y_f_amplitud)                                       #Se determina el maximo valor del vector de frecuencias del eje x del sensor 1
+    print('El valor maximo del array es:', max_value_2)                      #Se imprime el valor maximo
+    frecuencia_2 = x_f[np.where(y_f_amplitud == max(y_f_amplitud))]          #Se determina el valor de la frecuencia que tiene el valor maximo 
+    print('La frecuencia registrada es de:',frecuencia_2[0])                 #Se imprime el valor de maximo frecuancia 
+    time.sleep(0.5)                                                          #Retardo de 0.5 seg
     '''
     '''
-    F = np.loadtxt('acelerometro_106.txt')
-    N = F.size
-    T = 1.0 / 200.0
-    y_f = np.fft.fft(F)
-    x_f = np.linspace(0.0, 1.0/(2.0*T), N//2)
-    y_f_amplitud = 2.0/N * np.abs(y_f[:N//2])
+    F = np.loadtxt('acelerometro_103.txt')                                   #Se leen los datos de aceleracion del eje z del sensor 1
+    N = F.size                                                               #Se determina la longitud del vector F
+    T = 1.0 / 200.0                                                          #Se establece el periodo de muestreo
+    y_f = np.fft.fft(F)                                                      #Se obtiene la transformada de fourier 
+    x_f = np.linspace(0.0, 1.0/(2.0*T), N//2)                                #Se determina los valores del eje horizontal
+    y_f_amplitud = 2.0/N * np.abs(y_f[:N//2])                                #Se determina la amplitud de frecuencias (eje vertical)
 
-    max_value_6 = np.max(y_f_amplitud)
-    print('El valor maximo del array es:', max_value_6)
-    frecuencia_6 = x_f[np.where(y_f_amplitud == max(y_f_amplitud))]
-    print('La frecuencia registrada es de:',frecuencia_6[0])
-    time.sleep(0.5)
+    max_value_3 = np.max(y_f_amplitud)                                       #Se determina el maximo valor del vector de frecuencias del eje y del sensor 1
+    print('El valor maximo del array es:', max_value_3)                      #Se imprime el valor maximo
+    frecuencia_3 = x_f[np.where(y_f_amplitud == max(y_f_amplitud))]          #Se determina el valor de la frecuencia que tiene el valor maximo 
+    print('La frecuencia registrada es de:',frecuencia_3[0])                 #Se imprime el valor de maximo frecuencia 
+    time.sleep(0.5)                                                          #Retardo de 0.5 seg
     '''
     
-    F = np.loadtxt('acelerometro_107.txt')
-    N = F.size
-    #T = 1.0 / 60.0
-    T=(base_temp_2-base_temp)/800
-    y_f = np.fft.fft(F)
-    x_f = np.linspace(0.0, 1.0/(2.0*T), N//2)
-    y_f_amplitud = 2.0/N * np.abs(y_f[:N//2])
+    F = np.loadtxt('acelerometro_104.txt')                                   #Se leen los datos de aceleracion del eje x del sensor 2
+    N = F.size                                                               #Se determina la longitud del vector F
+    #T = 1.0 / 60.0                                                          #Se establece el periodo de muestreo
+    T=(base_temp_2-base_temp)/800                                            #Se establece el periodo de muestreo 
+    y_f = np.fft.fft(F)                                                      #Se obtiene la transformada de fourier
+    x_f = np.linspace(0.0, 1.0/(2.0*T), N//2)                                #Se determina los valores del eje horizontal
+    y_f_amplitud = 2.0/N * np.abs(y_f[:N//2])                                #Se determina la amplitud de frecuencias (eje vertical)   
     
-    #plt.plot(x_f, y_f_amplitud)
-    #plt.show()
+    #plt.plot(x_f, y_f_amplitud)                                             #Se configura la grafica grafica para la aceleracion x en el sensor 2
+    #plt.show()                                                              #Se muestra la aceleracion x del sensor 2
 
-    max_value_7 = np.max(y_f_amplitud)
-    print('El valor maximo del array es:', max_value_7)
-    frecuencia_7 = x_f[np.where(y_f_amplitud == max(y_f_amplitud))]
-    print('La frecuencia registrada es de:',frecuencia_7[0])
-    time.sleep(0.5)
+    max_value_4 = np.max(y_f_amplitud)                                       #Se determina el maximo valor del vector de frecuencias del eje x del sensor 2
+    print('El valor maximo del array es:', max_value_4)                      #Se imprime el valor maximo
+    frecuencia_4 = x_f[np.where(y_f_amplitud == max(y_f_amplitud))]          #Se determina el valor de la frecuencia que tiene el valor maximo 
+    print('La frecuencia registrada es de:',frecuencia_4[0])                 #Se imprime el valor de maximo frecuencia 
+    time.sleep(0.5)                                                          #Retardo de 0.5 seg
     
     '''
-    F = np.loadtxt('acelerometro_108.txt')
-    N = F.size
-    T = 1.0 / 200.0
-    y_f = np.fft.fft(F)
-    x_f = np.linspace(0.0, 1.0/(2.0*T), N//2)
-    y_f_amplitud = 2.0/N * np.abs(y_f[:N//2])
+    F = np.loadtxt('acelerometro_105.txt')                                   #Se leen los datos de aceleracion del eje y del sensor 2
+    N = F.size                                                               #Se determina la longitud del vector F
+    T = 1.0 / 200.0                                                          #Se establece el periodo de muestreo
+    y_f = np.fft.fft(F)                                                      #Se obtiene la transformada de fourier
+    x_f = np.linspace(0.0, 1.0/(2.0*T), N//2)                                #Se determina los valores del eje horizontal 
+    y_f_amplitud = 2.0/N * np.abs(y_f[:N//2])                                #Se determina la amplitud de frecuencias (eje vertical)
 
-    max_value_8 = np.max(y_f_amplitud)
-    print('El valor maximo del array es:', max_value_8)
-    frecuencia_8 = x_f[np.where(y_f_amplitud == max(y_f_amplitud))]
-    print('La frecuencia registrada es de:',frecuencia_8[0])
-    time.sleep(0.5)
+    max_value_5 = np.max(y_f_amplitud)                                       #Se determina el maximo valor del vector de frecuencias del eje y del sensor 2
+    print('El valor maximo del array es:', max_value_5)                      #Se imprime el valor maximo
+    frecuencia_5 = x_f[np.where(y_f_amplitud == max(y_f_amplitud))]          #Se determina el valor de la frecuencia que tiene el valor maximo
+    print('La frecuencia registrada es de:',frecuencia_5[0])                 #Se imprime el valor de maximo frecuencia
+    time.sleep(0.5)                                                          #Retardo de 0.5 seg 
     '''
     '''
-    F = np.loadtxt('acelerometro_109.txt')
-    N = F.size
-    T = 1.0 / 200.0
-    y_f = np.fft.fft(F)
-    x_f = np.linspace(0.0, 1.0/(2.0*T), N//2)
-    y_f_amplitud = 2.0/N * np.abs(y_f[:N//2])
+    F = np.loadtxt('acelerometro_106.txt')                                   #Se leen los datos de aceleracion del eje z del sensor 2
+    N = F.size                                                               #Se determina la longitud del vector F
+    T = 1.0 / 200.0                                                          #Se establece el periodo de muestreo 
+    y_f = np.fft.fft(F)                                                      #Se obtiene la transformada de fourier
+    x_f = np.linspace(0.0, 1.0/(2.0*T), N//2)                                #Se determina los valores del eje horizontal  
+    y_f_amplitud = 2.0/N * np.abs(y_f[:N//2])                                #Se determina la amplitud de frecuencias (eje vertical)
 
-    max_value_9 = np.max(y_f_amplitud)
-    print('El valor maximo del array es:', max_value_9)
-    frecuencia_9 = x_f[np.where(y_f_amplitud == max(y_f_amplitud))]
-    print('La frecuencia registrada es de:',frecuencia_9[0])
-    time.sleep(0.5)
+    max_value_6 = np.max(y_f_amplitud)                                       #Se determina el maximo valor del vector de frecuencias del eje z del sensor 2
+    print('El valor maximo del array es:', max_value_6)                      #Se imprime el valor maximo 
+    frecuencia_6 = x_f[np.where(y_f_amplitud == max(y_f_amplitud))]          #Se determina el valor de la frecuencia que tiene el valor maximo
+    print('La frecuencia registrada es de:',frecuencia_6[0])                 #Se imprime el valor de maximo frecuencia
+    time.sleep(0.5)                                                          #Retardo de 0.5 seg 
+    '''
+    
+    F = np.loadtxt('acelerometro_107.txt')                                   #Se leen los datos de aceleracion del eje x del sensor 3
+    N = F.size                                                               #Se determina la longitud del vector F
+    #T = 1.0 / 60.0                                                          #Se establece el periodo de muestreo
+    T=(base_temp_2-base_temp)/800                                            #Se establece el periodo de muestreo
+    y_f = np.fft.fft(F)                                                      #Se obtiene la transformada de fourier
+    x_f = np.linspace(0.0, 1.0/(2.0*T), N//2)                                #Se determina los valores del eje horizontal
+    y_f_amplitud = 2.0/N * np.abs(y_f[:N//2])                                #Se determina la amplitud de frecuencias (eje vertical)
+    
+    #plt.plot(x_f, y_f_amplitud)                                             #Se configura la grafica grafica para la aceleracion x en el sensor 2
+    #plt.show()                                                              #Se muestra la aceleracion x del sensor 2
+
+    max_value_7 = np.max(y_f_amplitud)                                       #Se determina el maximo valor del vector de frecuencias del eje x del sensor 3
+    print('El valor maximo del array es:', max_value_7)                      #Se imprime el valor maximo 
+    frecuencia_7 = x_f[np.where(y_f_amplitud == max(y_f_amplitud))]          #Se determina el valor de la frecuencia que tiene el valor maximo
+    print('La frecuencia registrada es de:',frecuencia_7[0])                 #Se imprime el valor de maximo frecuencia 
+    time.sleep(0.5)                                                          #Retardo de 0.5 seg
+    
+    '''
+    F = np.loadtxt('acelerometro_108.txt')                                   #Se leen los datos de aceleracion del eje y del sensor 3
+    N = F.size                                                               #Se determina la longitud del vector F
+    T = 1.0 / 200.0                                                          #Se establece el periodo de muestreo
+    y_f = np.fft.fft(F)                                                      #Se obtiene la transformada de fourier
+    x_f = np.linspace(0.0, 1.0/(2.0*T), N//2)                                #Se determina los valores del eje horizontal
+    y_f_amplitud = 2.0/N * np.abs(y_f[:N//2])                                #Se determina la amplitud de frecuencias (eje vertical) 
+
+    max_value_8 = np.max(y_f_amplitud)                                       #Se determina el maximo valor del vector de frecuencias del eje y del sensor 3
+    print('El valor maximo del array es:', max_value_8)                      #Se imprime el valor maximo 
+    frecuencia_8 = x_f[np.where(y_f_amplitud == max(y_f_amplitud))]          #Se determina el valor de la frecuencia que tiene el valor maximo
+    print('La frecuencia registrada es de:',frecuencia_8[0])                 #Se imprime el valor de maximo frecuencia
+    time.sleep(0.5)                                                          #Retardo de 0.5 seg
+    '''
+    '''
+    F = np.loadtxt('acelerometro_109.txt')                                   #Se leen los datos de aceleracion del eje z del sensor 3
+    N = F.size                                                               #Se determina la longitud del vector F
+    T = 1.0 / 200.0                                                          #Se establece el periodo de muestreo
+    y_f = np.fft.fft(F)                                                      #Se obtiene la transformada de fourier
+    x_f = np.linspace(0.0, 1.0/(2.0*T), N//2)                                #Se determina los valores del eje horizontal
+    y_f_amplitud = 2.0/N * np.abs(y_f[:N//2])                                #Se determina la amplitud de frecuencias (eje vertical) 
+
+    max_value_9 = np.max(y_f_amplitud)                                       #Se determina el maximo valor del vector de frecuencias del eje z del sensor 3
+    print('El valor maximo del array es:', max_value_9)                      #Se imprime el valor maximo
+    frecuencia_9 = x_f[np.where(y_f_amplitud == max(y_f_amplitud))]          #Se determina el valor de la frecuencia que tiene el valor maximo
+    print('La frecuencia registrada es de:',frecuencia_9[0])                 #Se imprime el valor de maximo frecuencia
+    time.sleep(0.5)                                                          #Retardo de 0.5 seg
     '''
     
     temperatura1 = sensor1.get_temp()
